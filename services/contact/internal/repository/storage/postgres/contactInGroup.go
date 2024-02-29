@@ -5,9 +5,9 @@ import (
 )
 
 func (r *Repository) CreateContantIntoGroup(groupID int, contact *contact.Contact) (*contact.Contact, error) {
-	stmt := "INSERT INTO contacts (id, phoneNumber, name, surname, patronymic) VALUES(?, ?, ?, ?, ?)"
+	stmt := "INSERT INTO contacts (phoneNumber, name, surname, patronymic) VALUES(?, ?, ?, ?)"
 
-	_, err := r.db.Exec(stmt, contact.ID(), contact.PhoneNumber(), contact.Surname(), contact.Patronymic())
+	_, err := r.db.Exec(stmt, contact.PhoneNumber(), contact.Name(), contact.Surname(), contact.Patronymic())
 	if err != nil {
 		return nil, err
 	}

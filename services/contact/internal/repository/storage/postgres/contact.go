@@ -8,9 +8,9 @@ import (
 )
 
 func (r *Repository) CreateContact(contact *contact.Contact) (*contact.Contact, error) {
-	stmt := "INSERT INTO contacts (id, phoneNumber, name, surname, patronymic) VALUES(?, ?, ?, ?, ?)"
+	stmt := "INSERT INTO contacts (phoneNumber, name, surname, patronymic) VALUES(?, ?, ?, ?)"
 
-	_, err := r.db.Exec(stmt, contact.ID(), contact.PhoneNumber(), contact.Surname(), contact.Patronymic())
+	_, err := r.db.Exec(stmt, contact.PhoneNumber(), contact.Name(), contact.Surname(), contact.Patronymic())
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func (r *Repository) ReadContactByID(contactID int) (*contact.Contact, error) {
 
 	var c contact.Contact
 
-	err := row.Scan(c.ID(), c.PhoneNumber(), c.Name(), c.Surname(), c.Patronymic()) //CORRECT??
+	err := row.Scan(c.ID(), c.PhoneNumber(), c.Name(), c.Surname(), c.Patronymic())
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return &contact.Contact{}, fmt.Errorf("no rows found")

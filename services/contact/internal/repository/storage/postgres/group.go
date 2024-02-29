@@ -8,9 +8,9 @@ import (
 )
 
 func (r *Repository) CreateGroup(group *group.Group) (*group.Group, error) {
-	stmt := "INSERT INTO groups (id, name) VALUES($1, $2) RETURNING id"
+	stmt := "INSERT INTO groups (name) VALUES(?)"
 
-	_, err := r.db.Exec(stmt, group.ID(), group.Name())
+	_, err := r.db.Exec(stmt, group.Name())
 	if err != nil {
 		return nil, err
 	}
@@ -25,7 +25,7 @@ func (r *Repository) ReadGroupByID(groupID int) (*group.Group, error) {
 
 	var g group.Group
 
-	err := row.Scan(g.ID(), g.Name()) //CORRECT??
+	err := row.Scan(g.ID(), g.Name())
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return &group.Group{}, fmt.Errorf("no rows found")
